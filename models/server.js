@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const { dbConnection } = require("../database/config");
 class server {
   constructor() {
     this.app = express();
@@ -10,11 +10,17 @@ class server {
     //Solo permite la conexion entre pocas conexion
     //Cros orginal access error posible sin CORS
 
+    this.conectarDB();
+    //Conectar a la base de datos
+
     this.middlewares();
     //Rutas de mi aplicacion
     this.routes();
   }
 
+  async conectarDB() {
+    await dbConnection();
+  }
   middlewares() {
     //Cors
     this.app.use(cors());
